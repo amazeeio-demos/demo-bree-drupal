@@ -54,7 +54,7 @@ jobs:
       with:
         action: deploy
         ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
-        lagoon_project: project-demo-bree-drupal
+        lagoon_project: demo-bree-drupal
         lagoon_environment: main
         wait_for_deployment: 'true'
         debug: "true"
