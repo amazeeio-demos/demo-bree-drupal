@@ -63,6 +63,6 @@ jobs:
             action: deploy
             ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
             lagoon_project: orbit
-            lagoon_environment: ${GITHUB_HEAD_REF}
+            lagoon_environment: main
             wait_for_deployment: 'true'
             debug: "true"
