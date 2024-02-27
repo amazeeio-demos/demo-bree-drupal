@@ -49,20 +49,12 @@ jobs:
     - name: Run docker-compose tests
       run: |
         yarn mocha --timeout 900000 test/*compose*.func.js
-    
-  deploy-to-lagoon:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: "0"
-        - name: Deploy branch
-          uses: uselagoon/lagoon-action@main
-          with:
-            action: deploy
-            ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
-            lagoon_project: orbit
-            lagoon_environment: main
-            wait_for_deployment: 'true'
-            debug: "true"
+    - name: Deploy branch
+      uses: uselagoon/lagoon-action@main
+      with:
+        action: deploy
+        ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
+        lagoon_project: project-demo-bree-drupal
+        lagoon_environment: main
+        wait_for_deployment: 'true'
+        debug: "true"
