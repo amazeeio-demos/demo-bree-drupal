@@ -5,9 +5,6 @@ on:
     branches:
       - 'main'
       - 'dev'
-  pull_request:
-    branches:
-      - 'main'
 
 jobs:
   test-suite:
@@ -52,16 +49,20 @@ jobs:
     - name: Run docker-compose tests
       run: |
         yarn mocha --timeout 900000 test/*compose*.func.js
-    # - name: Run Lando tests
-    #   timeout-minutes: 10
-    #   continue-on-error: true
-    #   run: |
-    #     yq e -i '.services.cli.overrides.environment.LANDO_WEBROOT_USER = "runner"' .lando.yml
-    #     yq e -i '.services.cli.overrides.environment.LANDO_WEBROOT_GROUP = "docker"' .lando.yml
-    #     yq e -i '.services.php.overrides.environment.LANDO_WEBROOT_USER = "runner"' .lando.yml
-    #     yq e -i '.services.php.overrides.environment.LANDO_WEBROOT_GROUP = "docker"' .lando.yml
-    #     yarn mocha --timeout 900000 test/*lando*.func.js
-    # - name: Show Lando logs
-    #   continue-on-error: true
-    #   run: |
-    #     docker-compose -p drupal9base logs
+    
+  deploy-to-lagoon:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: "0"
+        - name: Deploy branch
+          uses: uselagoon/lagoon-action@main
+          with:
+            action: deploy
+            ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
+            lagoon_project: orbit
+            lagoon_environment: ${GITHUB_HEAD_REF}
+            wait_for_deployment: 'true'
+            debug: "true"
