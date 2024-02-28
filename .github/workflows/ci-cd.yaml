@@ -50,7 +50,7 @@ jobs:
     #   run: |
     #     yarn mocha --timeout 900000 test/*compose*.func.js
     - name: Deploy branch
-      uses: uselagoon/lagoon-action@debug
+      uses: uselagoon/lagoon-action@main
       with:
         action: deploy
         ssh_private_key: "${{ secrets.LAGOON_SSH_PRIVATE_KEY }}"
